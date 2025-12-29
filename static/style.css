@@ -1,0 +1,135 @@
+/* style.css */
+
+/* Define variables for consistent branding */
+:root {
+    --primary-color: #007bff;
+    --bg-color: #f4f7f6;
+    --text-color: #333;
+    --bot-msg-bg: #e9ecef;
+    --user-msg-bg: #007bff;
+    --user-msg-text: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.wrapper {
+    width: 400px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    background: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.box {
+    height: 400px;
+    padding: 20px;
+    overflow-y: auto; /* Enables scrolling */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Base styles for all message items */
+.item {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    max-width: 80%;
+}
+
+.item.right {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+    background: #ddd;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+.msg {
+    padding: 10px 15px;
+    border-radius: 18px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Specific styling for Bot messages */
+.item:not(.right) .msg {
+    background: var(--bot-msg-bg);
+    color: var(--text-color);
+    border-bottom-left-radius: 2px;
+}
+
+/* Specific styling for User messages */
+.item.right .msg {
+    background: var(--user-msg-bg);
+    color: var(--user-msg-text);
+    border-bottom-right-radius: 2px;
+}
+
+.typing-area {
+    padding: 15px;
+    border-top: 1px solid #eee;
+}
+
+.input-field {
+    display: flex;
+    gap: 10px;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+input[type="text"]:focus {
+    border-color: var(--primary-color);
+}
+
+button {
+    padding: 10px 20px;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #0056b3;
+}

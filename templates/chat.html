@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="static/style.css">
+    <title>Chatbot - Medical Bot</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="title">Simple Chatbot</div>
+        <div class="box" id="chat-box">
+            <div class="item">
+                <div class="icon"><i class="fa fa-user"></i></div>
+                <div class="msg"><p>Hello! How can I assist you today?</p></div>
+            </div>
+        </div>
+        
+        <div class="typing-area">
+            <div class="input-field">
+                <input type="text" id="user-input" placeholder="Type your message" required>
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        async function sendMessage() {
+            const message = userInput.value;
+            if (!message) return;
+
+            // 1. Append User Message to UI
+            chatBox.innerHTML += `
+                <div class="item right">
+                    <div class="msg"><p>${message}</p></div>
+                </div><br clear="both">`;
+            
+            userInput.value = ''; // Clear input
+
+            // 2. Send Asynchronous (not happening at same time) request to Flask
+            // We use FormData to match your Flask "request.form['msg']"
+            const formData = new FormData();
+            formData.append('msg', message);
+
+            try {
+                const response = await fetch('/get', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.text();
+
+                // 3. Append Bot Response to UI
+                chatBox.innerHTML += `
+                    <div class="item">
+                        <div class="icon"><i class="fa fa-user"></i></div>
+                        <div class="msg"><p>${data}</p></div>
+                    </div><br clear="both">`;
+                
+                // Auto-scroll to bottom
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>
+
+
